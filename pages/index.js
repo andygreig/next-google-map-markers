@@ -1,13 +1,12 @@
 import React from "react";
-import styled from "styled-components";
-import Link from "next/link";
 
 import Layout from "../components/layout";
+import LocationMap from '../components/location-map';
 
 const Home = ({ data }) => {
   return (
     <Layout meta={data.meta}>
-      Test
+      <LocationMap />
     </Layout>
   );
 };
@@ -15,8 +14,9 @@ const Home = ({ data }) => {
 export async function getStaticProps() {
   const data = {
     meta: {
-      title: "Nextjs Demo - Google Maps with Markers ",
+      title: "Nextjs Demo - Google Maps with Markers",
       description: "Description",
+      canonical: "http://url.com",
     },
   };
   return {

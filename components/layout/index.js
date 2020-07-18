@@ -4,10 +4,10 @@ import React from "react";
 import Meta from "../meta";
 import Wrapper from "../wrapper";
 
-const Layout = ({ metaTags, children }) => {
+const Layout = ({ meta, children }) => {
   return (
     <>
-      <Meta {...metaTags} />
+      <Meta {...meta} />
       <Wrapper>{children}</Wrapper>
     </>
   );
@@ -15,7 +15,7 @@ const Layout = ({ metaTags, children }) => {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  metaTags: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired,
 };
 
 export default Layout;
