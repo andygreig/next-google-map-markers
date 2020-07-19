@@ -12,7 +12,7 @@ const mapDefaults = {
   zoom: 10,
   options: {
     disableDefaultUI: true,
-    maxZoom: 18,
+    maxZoom: 15,
   },
 };
 

@@ -35,7 +35,7 @@ const MapControls = () => {
         <Label>Type</Label>
         <StyledInput placeholder="Filter by type" />
       </FormRow>
-      <Button onClick={handleInitSearch}>Search</Button>
+      <Button onClick={handleInitSearch}>Find Stores</Button>
     </Container>
   );
 };
