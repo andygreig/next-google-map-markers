@@ -22,10 +22,14 @@ Before you try to run it locally you will need to set up the following:
 - an AirTable base table with the contents of the `_data` folder uploaded to it (or you can just used the Mock Data)
 
 ### Local dev
-`$ npm run dev`
+```
+npm run dev
+```
 
 ### Production build
-`$ npm build`
+```
+npm build
+```
 
 ## Packages
 On top of the required libraries (NextJS, React etc) this demo also uses the following libraries
