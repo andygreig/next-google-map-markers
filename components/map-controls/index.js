@@ -1,19 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 
+import { LocationContext } from '../../context';
+
+const fetchNearestStores = async ({ lat, lng }) => {
+  const url = `http://localhost:3000/api/stores/nearest?lat=${lat}&lng=${lng}`;
+  let response = await fetch(url);
+  return await response.json();
+};
+
 const MapControls = () => {
+  const { setLocations } = useContext(LocationContext);
+
+  const handleSearch = async () => {
+    let nearestStores = await fetchNearestStores({
+      lat: 34.0522,
+      lng: -118.2437,
+    });
+
+    if (nearestStores) {
+      setLocations(nearestStores);
+    }
+  };
+
   return (
     <Container>
       <h2>Find your nearest Wallmart store</h2>
       <FormRow>
-        <Label>Postcode</Label>
-        <Input placeholder="Enter a postcode" />
+        <Label>Town / City</Label>
+        <Input placeholder="Enter a town or city name" />
       </FormRow>
       <FormRow>
         <Label>Type</Label>
         <Input placeholder="Filter by type" />
       </FormRow>
-      <Button>Search</Button>
+      <Button onClick={handleSearch}>Search</Button>
     </Container>
   );
 };

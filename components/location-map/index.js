@@ -1,14 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { LocationContextProvider } from '../../context';
 import Map from '../map';
 import MapControls from '../map-controls';
 
 const LocationMap = () => {
+  // Default locations
+  const locations = [];
+
   return (
     <MapContainer>
-      <MapControls />
-      <Map />
+      <LocationContextProvider locations={locations}>
+        <MapControls />
+        <Map />
+      </LocationContextProvider>
     </MapContainer>
   );
 };

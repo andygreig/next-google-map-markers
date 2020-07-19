@@ -1,6 +1,8 @@
-import { GoogleMap, OverlayView, Polyline } from '@react-google-maps/api';
+import { GoogleMap, Marker } from '@react-google-maps/api';
 import React, { useCallback, useContext, useState } from 'react';
 import styled from 'styled-components';
+
+import { LocationContext } from '../../context';
 
 const mapDefaults = {
   center: {
@@ -10,12 +12,13 @@ const mapDefaults = {
   zoom: 10,
   options: {
     disableDefaultUI: true,
-    maxZoom: 12,
+    maxZoom: 16,
   },
 };
 
 const LocationMap = () => {
   const [map, setMap] = useState(null);
+  const { locations } = useContext(LocationContext);
 
   const onLoad = useCallback((map) => {
     setMap(map);
@@ -36,6 +39,14 @@ const LocationMap = () => {
         onUnmount={onUnmount}
       >
         {/* Child components, such as markers, info windows, etc. */}
+        <>
+          {locations.map((location) => {
+            // Note: Lat and Lng must be Numbers
+            const lat = Number(location.lat);
+            const lng = Number(location.lng);
+            return <Marker key={location.id} position={{ lat, lng }} />;
+          })}
+        </>
       </GoogleMap>
     </Container>
   );
