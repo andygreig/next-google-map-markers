@@ -15,11 +15,11 @@ const deg2rad = (deg) => {
   return deg * (Math.PI / 180);
 };
 
-const searchRadius = 200; //km
+const searchRadius = process.env.SEARCH_RADIUS_KM; //km
 
 export default (req, res) => {
   const { lat, lng } = req.query;
-  const url = 'http://localhost:3000/api/stores';
+  const url = `${process.env.BASE_URL}/api/stores`;
 
   if (lng && lat) {
     fetch(url)

@@ -1,4 +1,6 @@
 import Airtable from 'airtable';
+// Need a better way of programatically including mocks
+// as this way increases bundle size on production
 import mockLocations from './__mocks__/stores';
 
 const airtableKey = process.env.AIRTABLE_API_KEY;
@@ -29,9 +31,8 @@ export default async (req, res) => {
         type: row.get('type') || '',
       };
     });
+    const maxCache = 60 * 60 * 24; // 1 day
     // Set headers
-    // 1 day
-    const maxCache = 60 * 60 * 24;
     res.setHeader('Cache-Control', `max-age=${maxCache}, s-maxage=${maxCache}, stale-while-revalidate`);
     res.setHeader('Content-Type', 'application/json');
 

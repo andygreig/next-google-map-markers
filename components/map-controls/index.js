@@ -1,25 +1,26 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 
 import { LocationContext } from '../../context';
+import LocationAutocomplete from '../location-autocomplete';
 
 const fetchNearestStores = async ({ lat, lng }) => {
-  const url = `http://localhost:3000/api/stores/nearest?lat=${lat}&lng=${lng}`;
+  const url = `${process.env.BASE_URL}/api/stores/nearest?lat=${lat}&lng=${lng}`;
   let response = await fetch(url);
   return await response.json();
 };
 
 const MapControls = () => {
+  const [latLng, setLatLng] = useState(null);
   const { setLocations } = useContext(LocationContext);
 
-  const handleSearch = async () => {
-    let nearestStores = await fetchNearestStores({
-      lat: 34.0522,
-      lng: -118.2437,
-    });
+  const handleInitSearch = async () => {
+    if (latLng) {
+      let nearestStores = await fetchNearestStores(latLng);
 
-    if (nearestStores) {
-      setLocations(nearestStores);
+      if (nearestStores) {
+        setLocations(nearestStores);
+      }
     }
   };
 
@@ -28,13 +29,13 @@ const MapControls = () => {
       <h2>Find your nearest Wallmart store</h2>
       <FormRow>
         <Label>Town / City</Label>
-        <Input placeholder="Enter a town or city name" />
+        <LocationAutocomplete onSelectLatLng={setLatLng} placeholder="Enter a town or city name" countryCode="us" />
       </FormRow>
       <FormRow>
         <Label>Type</Label>
-        <Input placeholder="Filter by type" />
+        <StyledInput placeholder="Filter by type" />
       </FormRow>
-      <Button onClick={handleSearch}>Search</Button>
+      <Button onClick={handleInitSearch}>Search</Button>
     </Container>
   );
 };
@@ -51,10 +52,10 @@ const Label = styled.label`
   display: block;
 `;
 
-const Input = styled.input`
-  height: 44px;
+const StyledInput = styled.input`
+  height: 40px;
   padding: 0 0.5rem;
-  width: 15rem;
+  width: 100%;
   border: solid 1px #cacaca;
   background: #fafafa;
   border-radius: 3px;

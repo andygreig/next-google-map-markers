@@ -1,5 +1,5 @@
 import { GoogleMap, Marker } from '@react-google-maps/api';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { LocationContext } from '../../context';
@@ -12,7 +12,7 @@ const mapDefaults = {
   zoom: 10,
   options: {
     disableDefaultUI: true,
-    maxZoom: 16,
+    maxZoom: 18,
   },
 };
 
@@ -27,6 +27,19 @@ const LocationMap = () => {
   const onUnmount = useCallback((map) => {
     setMap(null);
   }, []);
+
+  useEffect(() => {
+    if (map && locations.length) {
+      // Fit map to markers when locations array changes
+      const bounds = new google.maps.LatLngBounds();
+      locations.forEach((location) => {
+        const {lat, lng } = location;
+        const position = { lat, lng };
+        bounds.extend(position);
+      });
+      map.fitBounds(bounds);
+    }
+  }, [locations]);
 
   return (
     <Container>
