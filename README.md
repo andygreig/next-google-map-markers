@@ -11,7 +11,9 @@ This is a demo of a stockists or store finder map.
 Node.js
 To install this demo run:
 
-`npm install`
+```
+npm install
+```
 
 ## Configuration
 
@@ -33,5 +35,12 @@ On top of the required libraries (NextJS, React etc) this demo also uses the fol
 - [react-cool-onclickoutside](https://github.com/wellyshen/react-cool-onclickoutside) - React hook to trigger callback when user clicks outside of the target component
 
 ## API
-`/api/stores` returns a proxied/cached array of store locations from the Airtable Database
-`/api/stores/nearest?lat={latitude}&lng={longitude}&radius={radiusInKm}` returns a limited amount of store locations within the radius of the Latitude/Longitude provided. 
+```
+/api/stores
+```
+returns a proxied/cached array of store locations from the Airtable Database
+
+```
+/api/stores/nearest?lat={latitude}&lng={longitude}&radius={radiusInKm}
+```
+returns a limited amount of store locations within the radius of the Latitude/Longitude provided. 
