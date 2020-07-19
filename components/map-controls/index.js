@@ -5,7 +5,8 @@ import { LocationContext } from '../../context';
 import LocationAutocomplete from '../location-autocomplete';
 
 const fetchNearestStores = async ({ lat, lng }) => {
-  const url = `${process.env.BASE_URL}/api/stores/nearest?lat=${lat}&lng=${lng}`;
+  const radius = process.env.SEARCH_RADIUS_KM; //km
+  const url = `${process.env.BASE_URL}/api/stores/nearest?lat=${lat}&lng=${lng}&radius=${radius}`;
   let response = await fetch(url);
   return await response.json();
 };
