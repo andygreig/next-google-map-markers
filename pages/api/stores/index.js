@@ -9,7 +9,7 @@ const isDevEnv = process.env.NODE_ENV === 'development';
 
 export default async (req, res) => {
   // Query Airtable and return locations if not Dev
-  if (isDevEnv) {
+  if (!isDevEnv) {
     // 1 day
     const airtable = new Airtable({ apiKey: airtableKey });
     const records = await airtable
@@ -38,6 +38,6 @@ export default async (req, res) => {
     res.status(200).json(locations);
   } else {
     // return mocked data for Local Dev
-    res.status(500).json(mockLocations);
+    res.status(200).json(mockLocations);
   }
 };
