@@ -15,6 +15,7 @@ const deg2rad = (deg) => {
   return deg * (Math.PI / 180);
 };
 
+const maxCache = 60 * 60 * 24; // 1 day
 const searchRadius = process.env.SEARCH_RADIUS_KM; //km
 
 export default async (req, res) => {
@@ -28,7 +29,6 @@ export default async (req, res) => {
         // Filter Store results by latlng radius
         const locations = data.filter((location) => distance(lat, lng, location.lat, location.lng) <= searchRadius);
 
-        const maxCache = 60 * 60 * 24; // 1 day
         // set cache headers
         res.setHeader('Cache-Control', `max-age=${maxCache}, s-maxage=${maxCache}, stale-while-revalidate`);
         res.setHeader('Access-Control-Allow-Origin', '*');
