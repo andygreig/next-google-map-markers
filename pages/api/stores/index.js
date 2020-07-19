@@ -6,10 +6,11 @@ import mockLocations from './__mocks__/stores';
 const airtableKey = process.env.AIRTABLE_API_KEY;
 const airtableBaseId = process.env.AIRTABLE_BASE_ID;
 const isDevEnv = process.env.NODE_ENV === 'development';
+const useAPI = false; // force api off for now
 
 export default async (req, res) => {
   // Query Airtable and return locations if not Dev
-  if (!isDevEnv) {
+  if (!isDevEnv && useAPI) {
     // 1 day
     const airtable = new Airtable({ apiKey: airtableKey });
     const records = await airtable

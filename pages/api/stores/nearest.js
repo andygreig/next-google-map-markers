@@ -31,7 +31,8 @@ export default async (req, res) => {
         const maxCache = 60 * 60 * 24; // 1 day
         // set cache headers
         res.setHeader('Cache-Control', `max-age=${maxCache}, s-maxage=${maxCache}, stale-while-revalidate`);
-        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
         res.status(200).json(locations);
       });
   } else {
