@@ -17,33 +17,27 @@ const deg2rad = (deg) => {
 
 const searchRadius = process.env.SEARCH_RADIUS_KM; //km
 
-export default (req, res) => {
-  return new Promise((resolve) => {
-    const { lat, lng } = req.query;
-    const url = `${process.env.BASE_URL}/api/stores`;
+export default async (req, res) => {
+  const { lat, lng } = req.query;
+  const url = `${process.env.BASE_URL}/api/stores`;
 
-    if (lng && lat) {
-      fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-          // Filter Store results by latlng radius
-          const locations = data.filter((location) => distance(lat, lng, location.lat, location.lng) <= searchRadius);
+  if (lng && lat) {
+    await fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        // Filter Store results by latlng radius
+        const locations = data.filter((location) => distance(lat, lng, location.lat, location.lng) <= searchRadius);
 
-          const maxCache = 60 * 60 * 24; // 1 day
-          // set cache headers
-          res.setHeader('Cache-Control', `max-age=${maxCache}, s-maxage=${maxCache}, stale-while-revalidate`);
-          res.setHeader('Content-Type', 'application/json');
-          // return json response
-          res.statusCode = 200;
-          res.json(locations);
-          resolve();
-        });
-    } else {
-      res.json({
-        error: true,
-        message: 'Missing lat & lng',
+        const maxCache = 60 * 60 * 24; // 1 day
+        // set cache headers
+        res.setHeader('Cache-Control', `max-age=${maxCache}, s-maxage=${maxCache}, stale-while-revalidate`);
+        res.setHeader('Content-Type', 'application/json');
+        res.status(200).json(locations);
       });
-      return resolve();
-    }
-  });
+  } else {
+    res.status(500).json({
+      error: true,
+      message: 'Missing lat & lng',
+    });
+  }
 };

@@ -9,7 +9,7 @@ const isDevEnv = process.env.NODE_ENV === 'development';
 
 export default async (req, res) => {
   // Query Airtable and return locations if not Dev
-  if (!isDevEnv) {
+  if (isDevEnv) {
     // 1 day
     const airtable = new Airtable({ apiKey: airtableKey });
     const records = await airtable
@@ -35,14 +35,9 @@ export default async (req, res) => {
     // Set headers
     res.setHeader('Cache-Control', `max-age=${maxCache}, s-maxage=${maxCache}, stale-while-revalidate`);
     res.setHeader('Content-Type', 'application/json');
-
-    res.statusCode = 200;
-    res.end(JSON.stringify(locations));
+    res.status(200).json(locations);
   } else {
     // return mocked data for Local Dev
-    res.setHeader('Content-Type', 'application/json');
-
-    res.statusCode = 200;
-    res.end(JSON.stringify(mockLocations));
+    res.status(500).json(mockLocations);
   }
 };
